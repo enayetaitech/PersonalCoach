@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const paymentRoutes = require('./paymentRoutes');
+const airtableRoutes = require('./airtableRoutes')
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,7 +20,9 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // Use the router
-app.use('/api', paymentRoutes); // All routes in the paymentRoutes will now be prefixed with /api
+app.use('/api', paymentRoutes); 
+
+app.use('/api', airtableRoutes)
 
 // Start server
 app.listen(port, () => {

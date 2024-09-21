@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/airtable", async (req, res) => {
   try {
     const { area , propertyType, bathroom, bedroom, budget} = req.body;
-    console.log('Data received from vapi at', new Date(), 'Area:', area, 'Property Type:', propertyType, 'Bathroom:', bathroom, 'Bedroom:', bedroom, 'Budget:', budget);
+    console.log('Data received as request.body', new Date(), 'area:', area, 'propertyType:', propertyType, 'bathroom:', bathroom, 'bedroom:', bedroom, 'budget:', budget);
 
 
     // Make request to make.com webhook

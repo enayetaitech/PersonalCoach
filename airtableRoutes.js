@@ -5,9 +5,16 @@ const router = express.Router();
 
 router.post("/airtable", async (req, res) => {
   try {
-    const { area , propertyType, bathroom, bedroom, budget } = req.body;
+    const { area, propertyType, bathroom, bedroom, budget } = req.body;
 
-    // Capitalize the first letter of propertyType and area
+    console.log('request body received', req.body)
+
+    // Check if all required fields are present
+    if (!area || !propertyType || !bathroom || !bedroom || !budget) {
+      return res.status(400).json({ error: 'All fields (area, propertyType, bathroom, bedroom, budget) are required.' });
+    }
+
+    // Helper function to capitalize the first letter of each word
     const capitalizeFirstLetter = (str) => {
       return str
         .toLowerCase()
@@ -16,6 +23,7 @@ router.post("/airtable", async (req, res) => {
         .join(' ');
     };
 
+    // Capitalize area and propertyType
     const capitalizedArea = capitalizeFirstLetter(area);
     const capitalizedPropertyType = capitalizeFirstLetter(propertyType);
 
@@ -39,6 +47,8 @@ router.post("/airtable", async (req, res) => {
     res.status(500).send('Error');
   }
 });
+
+
 
 
 // first api with 5 fixed req.body

@@ -5,23 +5,41 @@ const router = express.Router();
 
 router.post("/airtable", async (req, res) => {
   try {
-    const { area , propertyType, bathroom, bedroom, budget} = req.body;
-    console.log('Data received as request.body', new Date(), 'area:', area, 'propertyType:', propertyType, 'bathroom:', bathroom, 'bedroom:', bedroom, 'budget:', budget);
+    const { area , propertyType, bathroom, bedroom, budget } = req.body;
 
+    // Capitalize the first letter of propertyType and area
+    const capitalizeFirstLetter = (str) => {
+      return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    };
+
+    const capitalizedArea = capitalizeFirstLetter(area);
+    const capitalizedPropertyType = capitalizeFirstLetter(propertyType);
+
+    console.log('Data received as request.body', new Date(), 'area:', capitalizedArea, 'propertyType:', capitalizedPropertyType, 'bathroom:', bathroom, 'bedroom:', bedroom, 'budget:', budget);
 
     // Make request to make.com webhook
     const response = await axios.post(`https://hook.eu2.make.com/a4b097fnuhh5xnp2oz3kux70bgxjm2eq`, {
-      area, propertyType, bathroom, bedroom, budget
+      area: capitalizedArea,
+      propertyType: capitalizedPropertyType,
+      bathroom,
+      bedroom,
+      budget
     });
     
-    console.log('response received from make.com at', new Date(), 'response', response.data)
+    console.log('response received from make.com at', new Date(), 'response', response.data);
     // Return the data from the webhook response
-    res.json(response.data)
+    res.json(response.data);
 
   } catch (error) {
-    res.status(500).send('Error')
+    console.error('Error:', error);
+    res.status(500).send('Error');
   }
-})
+});
+
 
 // first api with 5 fixed req.body
 // router.post("/airtable", async (req, res) => {

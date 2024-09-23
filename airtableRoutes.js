@@ -5,25 +5,51 @@ const router = express.Router();
 
 router.post("/airtable", async (req, res) => {
   try {
-    const { area , propertyType, bathroom, bedroom, budget} = req.body;
-    console.log('Data received from vapi at', new Date(), 'Area:', area, 'Property Type:', propertyType, 'Bathroom:', bathroom, 'Bedroom:', bedroom, 'Budget:', budget);
+    const { area, propertyType, bathroom, bedroom, budget } = req.body;
 
-    console.log('toolCalls', req.body.message.toolCalls)
+    console.log('request body received', req.body)
 
+    // Check if all required fields are present
+    if (!area || !propertyType || !bathroom || !bedroom || !budget) {
+      return res.status(400).json({ error: 'All fields (area, propertyType, bathroom, bedroom, budget) are required.' });
+    }
+
+    // Helper function to capitalize the first letter of each word
+    const capitalizeFirstLetter = (str) => {
+      return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    };
+
+    // Capitalize area and propertyType
+    const capitalizedArea = capitalizeFirstLetter(area);
+    const capitalizedPropertyType = capitalizeFirstLetter(propertyType);
+
+    console.log('Data received as request.body', new Date(), 'area:', capitalizedArea, 'propertyType:', capitalizedPropertyType, 'bathroom:', bathroom, 'bedroom:', bedroom, 'budget:', budget);
 
     // Make request to make.com webhook
     const response = await axios.post(`https://hook.eu2.make.com/a4b097fnuhh5xnp2oz3kux70bgxjm2eq`, {
-      area, propertyType, bathroom, bedroom, budget
+      area: capitalizedArea,
+      propertyType: capitalizedPropertyType,
+      bathroom,
+      bedroom,
+      budget
     });
     
-    console.log('response received from make.com at', new Date(), 'response', response.data)
+    console.log('response received from make.com at', new Date(), 'response', response.data);
     // Return the data from the webhook response
-    res.json(response.data)
+    res.json(response.data);
 
   } catch (error) {
-    res.status(500).send('Error')
+    console.error('Error:', error);
+    res.status(500).send('Error');
   }
-})
+});
+
+
+
 
 // first api with 5 fixed req.body
 // router.post("/airtable", async (req, res) => {

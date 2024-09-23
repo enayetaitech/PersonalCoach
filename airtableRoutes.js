@@ -8,6 +8,8 @@ router.post("/airtable", async (req, res) => {
     const { area , propertyType, bathroom, bedroom, budget} = req.body;
     console.log('Data received from vapi at', new Date(), 'Area:', area, 'Property Type:', propertyType, 'Bathroom:', bathroom, 'Bedroom:', bedroom, 'Budget:', budget);
 
+    console.log('toolCalls', req.body.message.toolCalls)
+
 
     // Make request to make.com webhook
     const response = await axios.post(`https://hook.eu2.make.com/a4b097fnuhh5xnp2oz3kux70bgxjm2eq`, {

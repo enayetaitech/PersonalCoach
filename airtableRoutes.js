@@ -10,6 +10,7 @@ router.post("/airtable", async (req, res) => {
     console.log('request body received', req.body)
 
     console.log('tools calls received', req.body.message.toolCalls)
+    console.log('tools calls received', req.body.message.toolCalls[0].function.arguments)
 
     // Check if all required fields are present
     if (!area || !propertyType || !bathroom || !bedroom || !budget) {

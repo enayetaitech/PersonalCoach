@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const express = require('express');
 require("dotenv").config();
 const router = express.Router();
+const util = require('util');
 
 router.post("/airtable", async (req, res) => {
   try {
@@ -55,11 +56,14 @@ router.post("/airtable", async (req, res) => {
 router.post("/email", async (req, res) => {
   const {propertyData, customerEmail, customerName} = req.body;
     console.log('property data received', propertyData)
-    console.log('property data received records', propertyData.records)
-    console.log('property data received records[0]', propertyData.records[0])
-    console.log('property data received records[0]', propertyData.records[0].fields)
-    console.log('property data received records[1]', propertyData.records[1].fields)
-    console.log('property data received records[2]', propertyData.records[2].fields)
+   
+console.log('property data received', util.inspect(propertyData, { depth: null, colors: true }));
+
+    // console.log('property data received records', propertyData.records)
+    // console.log('property data received records[0]', propertyData.records[0])
+    // console.log('property data received records[0]', propertyData.records[0].fields)
+    // console.log('property data received records[1]', propertyData.records[1].fields)
+    // console.log('property data received records[2]', propertyData.records[2].fields)
 })
 
 

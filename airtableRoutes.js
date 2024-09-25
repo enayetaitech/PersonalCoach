@@ -53,9 +53,15 @@ router.post("/airtable", async (req, res) => {
 });
 
 router.post("/email", async (req, res) => {
-  
-    console.log('req.body received', req.body)
+  const {propertyData, customerEmail, customerName} = req.body;
+    console.log('property data received', propertyData)
+    console.log('property data received records', propertyData.records)
+    console.log('property data received records[0]', propertyData.records[0])
+    console.log('property data received records[0]', propertyData.records[0].fields)
+    console.log('property data received records[1]', propertyData.records[1].fields)
+    console.log('property data received records[2]', propertyData.records[2].fields)
 })
+
 
 
 

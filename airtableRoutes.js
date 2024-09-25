@@ -56,9 +56,22 @@ router.post("/airtable", async (req, res) => {
 router.post("/email", async (req, res) => {
   const {propertyData, customerEmail, customerName} = req.body;
     console.log('property data received', propertyData)
-   
-console.log('property data received', util.inspect(propertyData, { depth: null, colors: true }));
 
+    console.log('property data in json stringify', JSON.stringify(propertyData, null, 2));
+
+   
+    let parsedPropertyData = propertyData;
+
+    if (typeof propertyData === 'string') {
+      try {
+        parsedPropertyData = JSON.parse(propertyData);
+      } catch (error) {
+        console.error('Failed to parse propertyData:', error);
+      }
+    }
+    
+
+    console.log('parsedPropertyData', parsedPropertyData)
     // console.log('property data received records', propertyData.records)
     // console.log('property data received records[0]', propertyData.records[0])
     // console.log('property data received records[0]', propertyData.records[0].fields)

@@ -52,6 +52,10 @@ router.post("/airtable", async (req, res) => {
   }
 });
 
+router.post("/email", async (req, res) => {
+  
+    console.log('req.body received', req.body)
+})
 
 
 
